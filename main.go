@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"omnomsun/validator/cmd/validator"
+	"github.com/omnisyle/validator/cmd/validator"
 )
 
 type Params struct {
