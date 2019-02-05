@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"fmt"
 	"reflect"
 )
 
@@ -51,4 +52,16 @@ func Required(value interface{}, params interface{}) []string {
 	}
 
 	return nil
+}
+
+func InBetweenIntExclusive(min int, max int) Validator {
+
+	return func(value interface{}, params interface{}) []string {
+		castVal := value.(int)
+		if castVal < min || castVal > max {
+			return []string{fmt.Sprintf("must be in between %d and %d", min, max)}
+		}
+
+		return nil
+	}
 }

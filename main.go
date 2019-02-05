@@ -17,6 +17,9 @@ func main() {
 	}
 
 	ruleset := validator.Ruleset{
+		"Amount": []validator.Validator{
+			validator.InBetweenIntExclusive(11, 50),
+		},
 		"Resource": []validator.Validator{
 			validator.Required,
 		},
