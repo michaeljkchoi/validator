@@ -16,11 +16,10 @@ func Validate(params interface{}, ruleset Ruleset) (ValidatorResponse, error) {
 	result := map[string][]string{}
 
 	for k, rules := range ruleset {
-		r := reflect.ValueOf(params)
-		val := reflect.Indirect(r).FieldByName(k)
+		val := getFieldValue(k, params)
 
 		for _, rule := range rules {
-			resp := rule(val.Interface(), params)
+			resp := rule(val, params)
 
 			if resp != nil {
 				curErrs, ok := result[k]
@@ -37,6 +36,13 @@ func Validate(params interface{}, ruleset Ruleset) (ValidatorResponse, error) {
 	}
 
 	return ValidatorResponse{result}, nil
+}
+
+func getFieldValue(fieldName string, struc interface{}) interface{} {
+	r := reflect.ValueOf(struc)
+	val := reflect.Indirect(r).FieldByName(fieldName)
+
+	return val.Interface()
 }
 
 func Required(value interface{}, params interface{}) []string {
